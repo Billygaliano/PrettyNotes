@@ -1,19 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Users/inftel12/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
-        <dex dex="/Users/inftel12/AndroidStudioProjects/PrettyNotes/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0_6f1a7c70b09d6cbeff4852102fde3e1d7567c787.jar" />
-    </item>
-    <item
-        jar="/Users/inftel12/AndroidStudioProjects/PrettyNotes/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.7.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5bdb38b7e4b6094891648c1dc4dc08589b460f97">
-        <dex dex="/Users/inftel12/AndroidStudioProjects/PrettyNotes/app/build/intermediates/pre-dexed/debug/com.facebook.android-facebook-android-sdk-4.7.0_022745e30d6c888edbc15f98647f7f441f6394ba.jar" />
-    </item>
-
-</items>
+<items version="2" />

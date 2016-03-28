@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -36,44 +37,38 @@ public class Login extends Activity {
         info = (TextView)findViewById(R.id.info);
         loginButton = (LoginButton)findViewById(R.id.login_button);
         final Intent acceso = new Intent(this,MainActivity.class);
-
+        final AccessToken[] accessTokens = new AccessToken[1];
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
             @Override
             public void onSuccess(LoginResult loginResult) {
-
+                accessTokens[0] = loginResult.getAccessToken();
                 startActivity(acceso);
-
-            /*    info.setText(
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
-            */
             }
 
             @Override
             public void onCancel() {
-
                 info.setText("Login attempt canceled.");
-
             }
 
             @Override
             public void onError(FacebookException error) {
-
                 info.setText("Login attempt failed.");
             }
 
+
         });
+
+        if(accessTokens != null){
+            startActivity(acceso);
+        }
 
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
