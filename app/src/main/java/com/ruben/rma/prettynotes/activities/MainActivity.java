@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.facebook.login.LoginManager;
 import com.ruben.rma.prettynotes.data.NoteBD;
 import com.ruben.rma.prettynotes.R;
 
@@ -106,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case EXIST:
                 finish();
+                Intent intent = new Intent(this,Login.class);
+                LoginManager.getInstance().logOut();
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

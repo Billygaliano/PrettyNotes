@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/education"
+        android:icon="@mipmap/pretty_notes"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
@@ -38,7 +38,9 @@
 
         <activity
             android:name=".activities.Login"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -37,6 +37,8 @@
         fab:fab_colorPressed="@color/primary"
         fab:fab_colorRipple="@color/primary_light"
         fab:fab_shadow="true"
-        fab:fab_type="normal"/>
+        fab:fab_type="normal"
+        android:background="#6f286b"
+        fab:backgroundTint="#6f286b" />
 
 </RelativeLayout>

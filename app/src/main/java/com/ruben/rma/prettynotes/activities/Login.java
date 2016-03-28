@@ -3,22 +3,15 @@ package com.ruben.rma.prettynotes.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
 import com.ruben.rma.prettynotes.R;
 
 public class Login extends Activity {
@@ -35,36 +28,33 @@ public class Login extends Activity {
 
         setContentView(R.layout.activity_login);
         info = (TextView)findViewById(R.id.info);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
+
         final Intent acceso = new Intent(this,MainActivity.class);
-        final AccessToken[] accessTokens = new AccessToken[1];
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                accessTokens[0] = loginResult.getAccessToken();
-                startActivity(acceso);
-            }
-
-            @Override
-            public void onCancel() {
-                info.setText("Login attempt canceled.");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                info.setText("Login attempt failed.");
-            }
-
-
-        });
-
-        if(accessTokens != null){
+        if(isLoggedIn()){
             startActivity(acceso);
+        }else{
+            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>(){
+
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    startActivity(acceso);
+                    loginResult.getAccessToken().getPermissions();
+                }
+
+                @Override
+                public void onCancel() {}
+
+                @Override
+                public void onError(FacebookException error) {}
+            });
         }
 
     }
 
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
