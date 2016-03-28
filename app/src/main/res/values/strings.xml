@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Program</string>
+    <string name="app_name">Pretty Notes</string>
 
-    <string name="add_nota">Añadir/Editar</string>
+    <string name="facebook_app_id">1524795514492195</string>
+
+    <string name="add_nota">Añadir</string>
     <string name="ver_nota">Ver Nota</string>
 
     <string name="menu_crear">Crear nota</string>
@@ -9,5 +11,11 @@
     <string name="menu_eliminar">Eliminar nota</string>
     <string name="menu_borrar_todas">Borrar todas</string>
     <string name="menu_salir">Salir</string>
+    <string name="enter_title">Título</string>
+    <string name="enter_content">Contenido</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_attach">Adjuntar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="title_activity_login">Login</string>
 
 </resources>

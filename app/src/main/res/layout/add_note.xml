@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toolbar">
+
+        <EditText
+            android:id="@+id/editText_Titulo"
+            android:layout_margin="@dimen/margin_padding_tiny"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_title"
+            android:background="@drawable/apptheme_edit_text_holo_light"
+            android:padding="@dimen/margin_padding_tiny"
+            android:gravity="left"
+            android:singleLine="true"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/editText_Nota"
+            android:layout_margin="@dimen/margin_padding_tiny"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/enter_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_padding_tiny"
+            android:gravity="top"
+            android:background="@drawable/apptheme_edit_text_holo_light"
+            android:inputType="textMultiLine"/>
+
+    </LinearLayout>
+</RelativeLayout>
