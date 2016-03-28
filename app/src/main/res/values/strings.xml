@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Program</string>
+
+    <string name="add_nota">Añadir/Editar</string>
+    <string name="ver_nota">Ver Nota</string>
+
+    <string name="menu_crear">Crear nota</string>
+    <string name="menu_editar">Editar nota</string>
+    <string name="menu_eliminar">Eliminar nota</string>
+    <string name="menu_borrar_todas">Borrar todas</string>
+    <string name="menu_salir">Salir</string>
+
+</resources>
