@@ -6,5 +6,4 @@
         <item name="android:windowActionBar">false</item>
         <item name="colorPrimary">@color/primary</item>
     </style>
-
 </resources>
