@@ -21,8 +21,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ruben.rma.prettynotes.connectionws.DeleteHttp;
+import com.ruben.rma.prettynotes.connectionws.PostHttp;
+import com.ruben.rma.prettynotes.connectionws.UpdateHttp;
 import com.ruben.rma.prettynotes.data.NoteBD;
 import com.ruben.rma.prettynotes.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
@@ -35,7 +44,7 @@ public class ViewNote extends AppCompatActivity {
     private static final int EDITAR = Menu.FIRST;
     private static final int BORRAR = Menu.FIRST+1;
     private static final int SALIR = Menu.FIRST+2;
-    String title,content;
+    String title, content, email;
     TextView TITLE,CONTENT;
     NoteBD DB;
     private Toolbar mToolbar;
@@ -54,6 +63,7 @@ public class ViewNote extends AppCompatActivity {
 
         //obtenemos los paremos que se nos han pasado al hacer el paso de un activity a otro
         Bundle bundle=this.getIntent().getExtras();
+        email = bundle.getString("email");
 
         //lo insertamos en sus respectivas variables para tratar con ellos
         title =bundle.getString("title");
@@ -169,6 +179,7 @@ public class ViewNote extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void actividad (String f){
         DB =new NoteBD(this);
         String title, content, msj;
@@ -185,8 +196,28 @@ public class ViewNote extends AppCompatActivity {
                 CONTENT.requestFocus();
                 Mensaje(msj);
             }else{
-                DB.updateNote(title,content,this.title);
+                DB.updateNote(title, content, this.title);
+                try {
+                    JSONObject userParam = new JSONObject();
+                    System.out.println("EMAIL: " + email);
+                    userParam.put("idUser",0);
+                    userParam.put("email",email);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("tittle", title);
+                    jsonParam.put("content", content);
+                    Date dateNote = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    jsonParam.put("dateNote", dateFormat.format(dateNote));
+                    jsonParam.put("idUser", userParam);
+
+                    new UpdateHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/"+ email + "/" + this.title, jsonParam.toString());
+
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         }
@@ -204,16 +235,16 @@ public class ViewNote extends AppCompatActivity {
         alerta= new AlertDialog.Builder(this).create();
         alerta.setTitle("Mensaje de confirmación");
         alerta.setMessage("¿Desea eliminar la nota?");
-        alerta.setButton("Eliminar nota", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                delete();
-            }
-        });
         alerta.setButton2("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
+            }
+        });
+        alerta.setButton("Eliminar nota", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                delete();
             }
         });
         alerta.show();
@@ -222,6 +253,9 @@ public class ViewNote extends AppCompatActivity {
     private void delete(){
         DB = new NoteBD(this);
         DB.deleteNote(title);
-        actividad("delete");
+        new DeleteHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/" + email + "/" + title);
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("email", email);
+        startActivity(intent);
     }
 }

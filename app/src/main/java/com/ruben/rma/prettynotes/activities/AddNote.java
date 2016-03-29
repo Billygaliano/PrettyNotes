@@ -35,13 +35,11 @@ import io.codetail.animation.ViewAnimationUtils;
 public class AddNote extends AppCompatActivity {
 
     EditText TITLE, CONTENT;
-    String type, getTitle;
-    private static  final int SALIR = Menu.FIRST;
     NoteBD DB;
     private Toolbar mToolbar;
     LinearLayout mRevealView;
     boolean hidden = true;
-    String title, content, msj, idUser, email;
+    String msj, email;
     int getId;
 
     @Override
@@ -50,7 +48,6 @@ public class AddNote extends AppCompatActivity {
         setContentView(R.layout.add_note);
 
         Bundle bundle=this.getIntent().getExtras();
-        idUser = bundle.getString("idUser");
         email = bundle.getString("email");
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
