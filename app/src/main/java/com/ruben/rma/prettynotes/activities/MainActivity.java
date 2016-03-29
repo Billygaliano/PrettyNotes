@@ -1,6 +1,5 @@
 package com.ruben.rma.prettynotes.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,11 +15,9 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.facebook.login.LoginManager;
 import com.ruben.rma.prettynotes.data.NoteBD;
 import com.ruben.rma.prettynotes.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     NoteBD DB;
     List<String> item=null;
     String getTitle;
+    String email;
 
 
     @Override
@@ -45,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_CONTEXT_MENU);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle bundle=this.getIntent().getExtras();
+        email = bundle.getString("email");
+
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         lista = (ListView)findViewById(R.id.listView_Lista);
@@ -162,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
             //Si lo que añadimos es una nota pasamos al activity de Agragar nota pasandole en el pool el tipo que es para que pueda reconocerlo y saber que accion realizará
             type="add";
             Intent intent = new Intent(MainActivity.this,AddNote.class);
+            intent.putExtra("email", email);
             intent.putExtra("type",type);
             startActivity(intent);
         }else{
