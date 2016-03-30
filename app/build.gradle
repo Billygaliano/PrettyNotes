@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.rma.serviciosexternos"
+        applicationId "com.ruben.rma.prettynotes"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -36,4 +36,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.facebook.android:facebook-android-sdk:4.7.0'
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
 }

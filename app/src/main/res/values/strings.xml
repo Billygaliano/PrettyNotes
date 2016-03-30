@@ -17,5 +17,6 @@
     <string name="action_attach">Adjuntar</string>
     <string name="action_delete">Eliminar</string>
     <string name="title_activity_login">Login</string>
+    <string name="contentDescriptionImagenSet">This is where the picture is going to assign</string>
 
 </resources>

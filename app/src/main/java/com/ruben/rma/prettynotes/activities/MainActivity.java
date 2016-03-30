@@ -19,8 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.facebook.login.LoginManager;
+import com.ruben.rma.prettynotes.connectionws.PostHttp;
 import com.ruben.rma.prettynotes.data.NoteBD;
 import com.ruben.rma.prettynotes.R;
+import com.ruben.rma.prettynotes.model.Note;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lista;
     private Toolbar mToolbar;
 
-    NoteBD DB;
+    NoteBD DB = new NoteBD(this);
     List<String> item = null;
     String getTitle;
     String email;
@@ -87,11 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("ESTOY AKIII " + email);
         new GetHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/" + email);
-
-
-        //Esta funcion se encuentra en el constructor ya que hay que recorrer toda la base de datos y mostrar todos los titulos de las notas
-        //en el activity principal
-        showNotes();
     }
 
 
@@ -159,16 +156,19 @@ public class MainActivity extends AppCompatActivity {
         lista.setAdapter(adaptador);
     }
 
-    public String getNote() {
-        String type = "", content = "";
+    public Note getNote() {
+        Note content = new Note();
         DB = new NoteBD(this);
         Cursor c = DB.getNote(getTitle);
         //Nos aseguramos de que existe al menos un registro
         if (c.moveToFirst()) {
             //Recorremos el cursor hasta que no haya mas registros y obtenemos el conteenido de la nota
             do {
-                content = c.getString(2);
                 //Pongo 2 xq columna empieza desde valor 0, y en el 0 esta el id de la nota, en el 1 el titulo de la nota y el el 2 el contenido
+                content.setContent(c.getString(2));
+                content.setLatitude(c.getString(3));
+                content.setLongitude(c.getString(4));
+                content.setImage(c.getString(5));
             } while (c.moveToNext());
         }
         return content;
@@ -176,7 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void actividad(String act) {
         //Funcion que permite añadir, edirtar o ver una nota dependiendo de la subcadena que le pasemos
-        String type = "", content = "";
+        String type = "";
+        Note content;
         if (act.equals("add")) {
             //Si lo que añadimos es una nota pasamos al activity de Agragar nota pasandole en el pool el tipo que es para que pueda reconocerlo y saber que accion realizará
             type = "add";
@@ -194,7 +195,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("type", type);
                 intent.putExtra("email", email);
                 intent.putExtra("title", getTitle);
-                intent.putExtra("content", content);
+                intent.putExtra("content", content.getContent());
+                intent.putExtra("latitude", content.getLatitude());
+                intent.putExtra("longitude", content.getLongitude());
+                intent.putExtra("image", content.getImage());
                 startActivity(intent);
             } else if (act.equals("see")) {
                 //Si lo que deseamos es ver la nota solo debemos pasar al activity de ver nota y pasarle el titulo y el contenido en el pool (coleccion de objetos)
@@ -202,7 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ViewNote.class);
                 intent.putExtra("email", email);
                 intent.putExtra("title", getTitle);
-                intent.putExtra("content", content);
+                intent.putExtra("content", content.getContent());
+                intent.putExtra("latitude", content.getLatitude());
+                intent.putExtra("longitude", content.getLongitude());
+                intent.putExtra("image", content.getImage());
                 startActivity(intent);
             }
         }
@@ -354,24 +361,110 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(JSONArray result) {
             int i;
-            if(result.length() != 0){
-                for (i=0; i<result.length();i++){
-                    JSONObject j = null;
-                    try {
-                        j = result.getJSONObject(i);
-                        String tittle = j.getString("tittle");
-                        System.out.println("FERNANDOOOO "+ tittle);
-                        progress.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            boolean exist = false;
+            Cursor c = DB.getNoteByUser(email);
+            if(result != null){
+                if (result.length() != 0) {
+                    for (i = 0; i < result.length(); i++) {
+                        JSONObject j = null;
+                        try {
+                            j = result.getJSONObject(i);
+                            if (c.moveToFirst()) {
+                                //Recorremos el cursor hasta que no haya mas registros y obtenemos el conteenido de la nota
+                                do {
+
+                                    if (c.getString(1).equals(j.getString("tittle"))) {
+                                        exist = true;
+                                        System.out.println("datos añadidos " + j.getString("tittle"));
+                                    }
+                                    //Pongo 2 xq columna empieza desde valor 0, y en el 0 esta el id de la nota, en el 1 el titulo de la nota y el el 2 el contenido
+                                } while (c.moveToNext());
+                                if (!exist) {
+                                    System.out.println("Entra para insertar");
+                                        if(j.length() == 8){
+                                            DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), j.getString("latitude"), j.getString("longitude"), email, j.getString("photo"));
+                                        }else if(j.length() == 7){
+                                            DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), j.getString("latitude"), j.getString("longitude"), email, null);
+                                        }else if(j.length() == 6 ){
+                                            DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), null, null, email, j.getString("photo"));
+                                        }else if (j.length() == 5){
+                                            DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), null, null, email, null);
+
+                                        }
+                                }
+                                exist = false;
+                            } else {
+                                System.out.println("Longuitud del json: " + j.length()+ ". Con título: " + j.getString("tittle"));
+                                if(j.length() == 8){
+                                    DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), j.getString("latitude"), j.getString("longitude"), email, j.getString("photo"));
+                                }else if(j.length() == 7){
+                                    DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), j.getString("latitude"), j.getString("longitude"), email, null);
+                                }else if(j.length() == 6 ){
+                                    DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), null, null, email, j.getString("photo"));
+                                }else if (j.length() == 5){
+                                    DB.addNote(j.getString("tittle"), j.getString("content"), j.getString("dateNote"), null, null, email, null);
+
+                                }
+                            }
+                            progress.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+                } else {
+                    progress.dismiss();
+                }
+
+                Boolean existJSON = false;
+                Cursor cursor = DB.getNoteByUser(email);
+                if (cursor.moveToFirst()) {
+                    //Recorremos el cursor hasta que no haya mas registros y obtenemos el conteenido de la nota
+
+                    do {
+
+                        for (i=0; i<result.length();i++){
+                            JSONObject j = null;
+                            try {
+
+                                j = result.getJSONObject(i);
+                                if(cursor.getString(1).equals(j.getString("tittle"))){
+                                    existJSON = true;
+                                }
+                            }catch(JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                        if(!existJSON){
+                            System.out.println("entra en añadir");
+                            JSONObject jsonParam = new JSONObject();
+
+                            try {
+                                JSONObject userParam = new JSONObject();
+                                System.out.println("EMAIL: " + email);
+                                userParam.put("idUser", 0);
+                                userParam.put("email", email);
+                                jsonParam.put("tittle", cursor.getString(1));
+                                jsonParam.put("content", cursor.getString(2));
+                                jsonParam.put("dateNote",cursor.getString(3));
+                                jsonParam.put("photo",cursor.getString(4));
+                                jsonParam.put("latitude",cursor.getString(5));
+                                jsonParam.put("longitude",cursor.getString(6));
+                                jsonParam.put("idUser",userParam);
+                                new PostHttp(context).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note?", jsonParam.toString());
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        existJSON = false;
+                        //Pongo 2 xq columna empieza desde valor 0, y en el 0 esta el id de la nota, en el 1 el titulo de la nota y el el 2 el contenido
+                    } while (cursor.moveToNext());
 
                 }
-            }else{
-                progress.dismiss();
+
             }
-
+            showNotes();
         }
-
     }
 }

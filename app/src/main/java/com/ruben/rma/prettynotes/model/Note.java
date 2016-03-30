@@ -10,8 +10,7 @@ public class Note {
     private String tittle;
     private String content;
     private String date;
-    private byte[] image;
-    private byte[] audio;
+    private String image;
     private String latitude;
     private String longitude;
 
@@ -47,28 +46,15 @@ public class Note {
         this.date = date;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
+    public String getImage() { return image; }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public byte[] getAudio() {
-        return audio;
-    }
-
-    public void setAudio(byte[] audio) {
-        this.audio = audio;
-    }
+    public void setImage(String image) { this.image = image; }
 
     public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setLatitude(String latitude) { this.latitude = latitude;
     }
 
     public String getLongitude() {

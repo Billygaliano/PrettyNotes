@@ -11,15 +11,14 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentBottom="true">
+        android:layout_below="@+id/toolbar">
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="560dp"
+            android:layout_height="match_parent"
             android:id="@+id/listView_Lista"
             android:layout_gravity="center_horizontal"
             android:dividerHeight="6dp"

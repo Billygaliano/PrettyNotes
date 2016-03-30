@@ -6,6 +6,7 @@
         layout="@layout/toolbar" />
 
     <LinearLayout
+        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -24,7 +25,6 @@
             android:singleLine="true"
             android:textStyle="bold" />
 
-
         <EditText
             android:id="@+id/textView_content"
             android:layout_margin="@dimen/margin_padding_tiny"
@@ -36,6 +36,27 @@
             android:gravity="top"
             android:background="@drawable/apptheme_edit_text_holo_light"
             android:inputType="textMultiLine"/>
+
+
+        <ImageView
+            android:id="@+id/setPicture"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:contentDescription="@string/contentDescriptionImagenSet"
+            android:layout_below="@+id/buttonImage"/>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <fragment
+                android:id="@+id/list"
+                class="android.support.v4.app.ListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -64,9 +85,11 @@
                     android:orientation="vertical">
 
                     <ImageButton
+                        android:id="@+id/buttonImage"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/icon_camera" />
+                        android:background="@drawable/icon_camera"
+                        android:clickable="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -106,13 +129,15 @@
                     <ImageButton
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/map_icon" />
+                        android:background="@drawable/map_icon"
+                        android:id="@+id/mapButton"
+                        android:clickable="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Ubicación"
+                        android:text="Mi ubicación"
                         android:textColor="#ffffff" />
                 </LinearLayout>
 
