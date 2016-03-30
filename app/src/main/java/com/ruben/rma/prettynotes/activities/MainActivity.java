@@ -1,6 +1,7 @@
 package com.ruben.rma.prettynotes.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new GetHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/");
+        System.out.println("ESTOY AKIII " + email);
+        new GetHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/" + email);
 
 
         //Esta funcion se encuentra en el constructor ya que hay que recorrer toda la base de datos y mostrar todos los titulos de las notas
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         //Creamos un tipo de base de datos
         DB = new NoteBD(this);
         //Obtenemos el contenido de las notas
-        Cursor c = DB.getNotes();
+        Cursor c = DB.getNoteByUser(email);
         item = new ArrayList<String>();
         String title = "";
         //Nos aseguramos de que existe al menos unr egistro
@@ -279,6 +281,8 @@ public class MainActivity extends AppCompatActivity {
 
     public class GetHttp extends AsyncTask<String, Void, JSONArray> {
         private final Context context;
+        private ProgressDialog progress;
+
 
 
         public GetHttp(Context c) {
@@ -286,6 +290,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPreExecute() {
+            progress= new ProgressDialog(this.context);
+            progress.setMessage("Loading");
+            progress.show();
         }
 
         @Override
@@ -294,24 +301,24 @@ public class MainActivity extends AppCompatActivity {
             String finalJson = "";
             String result = "";
             StringBuilder sb = new StringBuilder();
-            HttpURLConnection con;
+            HttpURLConnection conGet;
             JSONArray parentObject = null;
 
             try {
 
 
                 URL url = new URL(param[0]);
-                con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
+                conGet = (HttpURLConnection) url.openConnection();
+                conGet.setRequestMethod("GET");
 
 
-                int statusCode = con.getResponseCode();
+                int statusCode = conGet.getResponseCode();
 
                 if(statusCode !=200){
 
                 }
                 else {
-                    InputStream in = new BufferedInputStream(con.getInputStream());
+                    InputStream in = new BufferedInputStream(conGet.getInputStream());
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(in));
 
                     String line = "";
@@ -325,18 +332,21 @@ public class MainActivity extends AppCompatActivity {
 
                 result = "\nSending 'POST' request to URL : " + url + "\nResponse Code : " + statusCode;
 
-                System.out.println("\nSending 'POST' request to URL : " + con.getRequestMethod() + " Y la URL: " + url);
+                System.out.println("\nSending 'POST' request to URL : " + conGet.getRequestMethod() + " Y la URL: " + url);
                 System.out.println("Response Code : " + statusCode);
 
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                progress.dismiss();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                progress.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
+                progress.dismiss();
             }
 
             return parentObject;
@@ -344,17 +354,23 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(JSONArray result) {
             int i;
-            for (i=0; i<result.length();i++){
-                JSONObject j = null;
-                try {
-                    j = result.getJSONObject(i);
-                    String tittle = j.getString("tittle");
-                    System.out.println(tittle);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            if(result.length() != 0){
+                for (i=0; i<result.length();i++){
+                    JSONObject j = null;
+                    try {
+                        j = result.getJSONObject(i);
+                        String tittle = j.getString("tittle");
+                        System.out.println("FERNANDOOOO "+ tittle);
+                        progress.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }else{
+                progress.dismiss();
             }
+
         }
 
     }

@@ -11,6 +11,7 @@ public class NoteBD extends SQLiteOpenHelper {
     public  static final String TABLE_ID ="idNote";
     public  static final String TITLE ="title";
     public  static final String CONTENT ="content";
+    public  static final String DATE ="date";
 
     public  static final String ID_USER ="idUser";
     public  static final String EMAIL ="email";
@@ -30,7 +31,7 @@ public class NoteBD extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Creamos la base de datos, de forma que sea atumatica con respecto a los id que se le añaden
         //Vital importancion los espaciones entre cadenas de caracteres ya que es como si solo formara una por las operaciones +
-        db.execSQL("CREATE TABLE "+TABLE+"("+TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+TITLE+" TEXT,"+CONTENT+" TEXT)");
+        db.execSQL("CREATE TABLE "+TABLE+"("+TABLE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+TITLE+" TEXT,"+CONTENT+" TEXT,"+ DATE + " TEXT," + EMAIL +" TEXT)");
         db.execSQL("CREATE TABLE " + TABLE_USER + "(" + ID_USER + " INTEGER PRIMARY KEY AUTOINCREMENT, " + EMAIL + " TEXT)");
 
 
@@ -60,10 +61,12 @@ public class NoteBD extends SQLiteOpenHelper {
 
 
     //Añadimos notas
-    public Long  addNote (String title, String content){
+    public Long  addNote (String title, String content,String date, String email){
         ContentValues valores = new ContentValues();
         valores.put(TITLE, title);
         valores.put(CONTENT, content);
+        valores.put(DATE,date);
+        valores.put(EMAIL,email);
         //Funcion insertar
         return this.getWritableDatabase().insert(TABLE,null,valores);
     }
@@ -76,6 +79,16 @@ public class NoteBD extends SQLiteOpenHelper {
         Cursor c = this.getReadableDatabase().query(TABLE,columnas,TITLE+"=?",args,null,null,null);
         return c;
     }
+
+    //Mediante este metodo se devuelve una nota con el titulo concreto
+    public Cursor getNoteByUser (String condition){
+        String columnas[]={TABLE_ID,TITLE,CONTENT};
+        String[] args = new String[] {condition};
+        //Accedemos a la base de datos para buscar
+        Cursor c = this.getReadableDatabase().query(TABLE,columnas,EMAIL+"=?",args,null,null,null);
+        return c;
+    }
+
     //eliminamos la nota con el string que coincida con el titulo
     public void deleteNote (String condition){
         String args[]={condition};

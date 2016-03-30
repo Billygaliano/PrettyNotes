@@ -186,7 +186,10 @@ public class AddNote extends AppCompatActivity {
                     msj="EL título de la nota ya existe";
                     Mensaje(msj);
                 }else{
-                    DB.addNote(note.getTittle(), note.getContent());
+                    Date dateNote = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+                    DB.addNote(note.getTittle(), note.getContent(),dateFormat.format(dateNote),email);
 
                     try {
                         JSONObject userParam = new JSONObject();
@@ -197,8 +200,7 @@ public class AddNote extends AppCompatActivity {
                         JSONObject jsonParam = new JSONObject();
                         jsonParam.put("tittle", note.getTittle());
                         jsonParam.put("content", note.getContent());
-                        Date dateNote = new Date();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
                         jsonParam.put("dateNote", dateFormat.format(dateNote));
                         jsonParam.put("idUser", userParam);
 
