@@ -38,6 +38,13 @@
             android:background="@drawable/apptheme_edit_text_holo_light"
             android:inputType="textMultiLine"/>
 
+        <Button android:id="@+id/btn"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_below="@+id/seek_bar"
+            android:layout_marginTop="60px"
+            android:gravity="center" android:text="Play" />
+
         <ImageView
             android:id="@+id/setPicture"
             android:layout_width="match_parent"
@@ -109,7 +116,8 @@
                     <ImageButton
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/audio_icon" />
+                        android:background="@drawable/audio_icon"
+                        android:id="@+id/audio_image" />
 
                     <TextView
                         android:layout_width="wrap_content"

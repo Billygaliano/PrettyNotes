@@ -18,5 +18,6 @@
     <string name="action_delete">Eliminar</string>
     <string name="title_activity_login">Login</string>
     <string name="contentDescriptionImagenSet">This is where the picture is going to assign</string>
-
+    <string name="speech_prompt">Dictar Nota</string>
+    <string name="speech_not_supported">El dispositivo no soporta el dictado de nota</string>
 </resources>

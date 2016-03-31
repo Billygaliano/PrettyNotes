@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,11 +22,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +38,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -55,6 +60,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -74,7 +80,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by RMA on 14/04/2015.
  */
-public class AddNote extends AppCompatActivity {
+public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     EditText TITLE, CONTENT;
     NoteBD DB;
@@ -84,16 +90,25 @@ public class AddNote extends AppCompatActivity {
     String msj, email;
     double latitude, longitude;
     int getId;
+
     private ListFragment mList;
     private MapAdapter mAdapter;
+
     private String APP_DIRECTORY = "myPictureApp/";
     private String MEDIA_DIRECTORY = APP_DIRECTORY + "media";
     private String TEMPORAL_PICTURE_NAME = "temporal.jpg";
+    private String FOTO_TIEMPO = "";
+    SimpleDateFormat dateF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     Uri path = null;
     private final int PHOTO_CODE = 100;
     private final int SELECT_PICTURE = 200;
     private ImageView imageView;
 
+    private ImageButton btnSpeak;
+    private TextView txtSpeechInput;
+    private final int REQ_CODE_SPEECH_INPUT = 300;
+    private Button btn;
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +121,10 @@ public class AddNote extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRevealView.setVisibility(View.INVISIBLE);
                 final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(AddNote.this);
-                builder.setTitle("Elige una opcion :D");
+                builder.setTitle("Elige una opcion");
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int seleccion) {
@@ -118,8 +134,6 @@ public class AddNote extends AppCompatActivity {
                             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.setType("image/*");
                             startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
-                        } else if (options[seleccion] == "Cancelar") {
-                            dialog.dismiss();
                         }
                     }
                 });
@@ -150,10 +164,10 @@ public class AddNote extends AppCompatActivity {
             return;
         }
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
-        LatLng  currentLocation = new LatLng(latitude, longitude);
 
+        longitude = location.getLongitude();
+        latitude =  location.getLatitude();
+        LatLng  currentLocation = new LatLng(latitude, longitude);
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
         NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
                 new NamedLocation(getLocationName(latitude,longitude), currentLocation)
@@ -172,6 +186,65 @@ public class AddNote extends AppCompatActivity {
             }
         });
 
+
+        tts = new TextToSpeech(this, this);
+        txtSpeechInput = (TextView) findViewById(R.id.editText_Nota);
+        btnSpeak = (ImageButton) findViewById(R.id.audio_image);
+        btn = (Button) findViewById(R.id.btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                speakOut();
+            }
+        });
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mRevealView.setVisibility(View.INVISIBLE);
+                promptSpeechInput();
+            }
+        });
+    }
+
+    @Override
+    public void onInit(int status) {
+
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.getDefault());
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+                btnSpeak.setEnabled(true);
+                speakOut();
+            }
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+    }
+
+    private void speakOut() {
+        String text = txtSpeechInput.getText().toString();
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -182,7 +255,7 @@ public class AddNote extends AppCompatActivity {
             case PHOTO_CODE:
                 if(resultCode == RESULT_OK){
                     String dir =  Environment.getExternalStorageDirectory() + File.separator
-                            + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+                            + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
                     decodeBitmap(dir);
                 }
                 break;
@@ -193,6 +266,14 @@ public class AddNote extends AppCompatActivity {
                     imageView.setImageURI(path);
                 }
                 break;
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtSpeechInput.setText(result.get(0));
+                }
+                break;
+            }
         }
 
     }
@@ -208,8 +289,13 @@ public class AddNote extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
         file.mkdirs();
 
+        Date dateNote = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String datefoto = dateFormat.format(dateNote);
+        FOTO_TIEMPO = datefoto.replace('-','_').replace(' ','_').replace(':','_');
+
         String path = Environment.getExternalStorageDirectory() + File.separator
-                + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+                + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
 
         File newFile = new File(path);
 
@@ -227,7 +313,7 @@ public class AddNote extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-       int id=item.getItemId();
+        int id=item.getItemId();
         //Mediante getItem se obtiene el vlaor del botn pulsado
         switch (id){
             case R.id.action_save:
@@ -377,7 +463,7 @@ public class AddNote extends AppCompatActivity {
                         jsonParam.put("content", note.getContent());
 
                         if(path != null) {
-                           int i =0;
+                            int i =0;
                             byte[] photo = convertImageToByte(path);
                             System.out.println("Aqui los datos son estos: " + photo.toString());
                             String p = Base64.encodeToString(photo, Base64.DEFAULT);
@@ -615,5 +701,15 @@ public class AddNote extends AppCompatActivity {
         }
         System.out.println("Data : " + data.length + data.toString());
         return data;
+    }
+
+    @Override
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
 }
