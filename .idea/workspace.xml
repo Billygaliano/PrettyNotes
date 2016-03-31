@@ -29,94 +29,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37717122">
-              <caret line="327" column="17" selection-start-line="327" selection-start-column="17" selection-end-line="327" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3770#3789#0" expanded="true" />
-                <element signature="e#11692#12021#0" expanded="true" />
-                <element signature="e#12020#12021#0" expanded="true" />
-                <element signature="e#13537#13538#0" expanded="true" />
-                <element signature="e#13577#13578#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <caret line="9" column="79" selection-start-line="9" selection-start-column="79" selection-end-line="9" selection-end-column="79" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddNote.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AddNote.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="431" column="67" selection-start-line="431" selection-start-column="67" selection-end-line="431" selection-end-column="67" />
+            <state vertical-scroll-proportion="3.4057071">
+              <caret line="287" column="51" selection-start-line="287" selection-start-column="51" selection-end-line="287" selection-end-column="51" />
               <folding>
-                <element signature="e#7538#7751#0" expanded="true" />
-                <element signature="e#7750#7751#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViewNote.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.481482">
-              <caret line="500" column="8" selection-start-line="500" selection-start-column="8" selection-end-line="510" selection-end-column="9" />
-              <folding>
-                <element signature="e#8601#8923#0" expanded="true" />
-                <element signature="e#8922#8923#0" expanded="true" />
-                <element signature="e#9194#9407#0" expanded="true" />
-                <element signature="e#9406#9407#0" expanded="true" />
-                <element signature="e#9442#9589#0" expanded="true" />
-                <element signature="e#9588#9589#0" expanded="true" />
-                <element signature="e#21065#21098#0" expanded="true" />
-                <element signature="e#21302#21342#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="add_note.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/add_note.xml">
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view_note.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/view_note.xml">
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.444445">
-              <caret line="144" column="51" selection-start-line="144" selection-start-column="51" selection-end-line="144" selection-end-column="51" />
-              <folding>
-                <element signature="e#664#692#0" expanded="true" />
-                <element signature="e#815#836#0" expanded="true" />
-                <element signature="e#938#966#0" expanded="true" />
-                <element signature="e#1180#1208#0" expanded="true" />
-                <element signature="e#1320#1343#0" expanded="true" />
-                <element signature="e#1421#1449#0" expanded="true" />
-                <element signature="e#2180#2217#0" expanded="true" />
+                <element signature="e#3931#5131#0" expanded="true" />
+                <element signature="e#5130#5131#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,7 +56,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/Login.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="28" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="28" />
+              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ViewNote.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="187" column="16" selection-start-line="187" selection-start-column="16" selection-end-line="187" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -1760,13 +1700,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/adapter/Adapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/add_note.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/view_note.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/connectionws/DeleteHttp.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/add_note.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java" />
       </list>
     </option>
   </component>
@@ -1774,9 +1715,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="52" />
-    <option name="y" value="26" />
-    <option name="width" value="1093" />
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
     <option name="height" value="977" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -1803,8 +1743,8 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
@@ -1822,6 +1762,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1907,6 +1851,10 @@
               <option name="myItemId" value="prettynotes" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1924,6 +1872,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="prettynotes" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PrettyNotes" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1948,9 +1914,9 @@
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4300eb6eb2b0707b" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4300ead3b4f87013" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_23" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/pn" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MyFirstApp" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
@@ -2129,7 +2095,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="52" y="26" width="1093" height="977" extended-state="0" />
+    <frame x="0" y="23" width="1920" height="977" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2140,16 +2106,15 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6387921" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3554007" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295711" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25404376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24227902" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2162,6 +2127,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2178,7 +2144,7 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="2" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2186,14 +2152,89 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#3931#5131#0" expanded="true" />
+            <element signature="e#5130#5131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="183" column="46" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
+          <folding>
+            <element signature="e#22078#22111#0" expanded="true" />
+            <element signature="e#22315#22355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="159" column="41" selection-start-line="159" selection-start-column="41" selection-end-line="159" selection-end-column="41" />
+          <folding>
+            <element signature="e#3931#5131#0" expanded="true" />
+            <element signature="e#5130#5131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="183" column="46" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
+          <folding>
+            <element signature="e#22078#22111#0" expanded="true" />
+            <element signature="e#22315#22355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="434" column="20" selection-start-line="434" selection-start-column="20" selection-end-line="434" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3770#3789#0" expanded="true" />
-            <element signature="e#11692#12021#0" expanded="true" />
-            <element signature="e#12020#12021#0" expanded="true" />
-            <element signature="e#13537#13538#0" expanded="true" />
-            <element signature="e#13577#13578#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2211,8 +2252,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#7538#7751#0" expanded="true" />
-            <element signature="e#7750#7751#0" expanded="true" />
+            <element signature="e#3931#5131#0" expanded="true" />
+            <element signature="e#5130#5131#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2222,14 +2263,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="176" column="13" selection-start-line="176" selection-start-column="13" selection-end-line="176" selection-end-column="13" />
           <folding>
-            <element signature="e#8601#8923#0" expanded="true" />
-            <element signature="e#8922#8923#0" expanded="true" />
-            <element signature="e#9194#9407#0" expanded="true" />
-            <element signature="e#9406#9407#0" expanded="true" />
-            <element signature="e#9442#9589#0" expanded="true" />
-            <element signature="e#9588#9589#0" expanded="true" />
-            <element signature="e#21065#21098#0" expanded="true" />
-            <element signature="e#21302#21342#0" expanded="true" />
+            <element signature="e#22078#22111#0" expanded="true" />
+            <element signature="e#22315#22355#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2238,7 +2273,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.93637455">
           <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2250,32 +2284,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/Login.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/connectionws/DeleteHttp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="28" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="28" />
-          <folding />
+        <state vertical-scroll-proportion="0.7743097">
+          <caret line="56" column="49" selection-start-line="56" selection-start-column="49" selection-end-line="56" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/add_note.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
-          <folding />
+          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Looper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/view_note.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.444445">
-          <caret line="144" column="51" selection-start-line="144" selection-start-column="51" selection-end-line="144" selection-end-column="51" />
+        <state vertical-scroll-proportion="-18.222221">
+          <caret line="142" column="59" selection-start-line="141" selection-start-column="52" selection-end-line="142" selection-end-column="59" />
           <folding>
             <element signature="e#664#692#0" expanded="true" />
             <element signature="e#815#836#0" expanded="true" />
@@ -2287,89 +2327,70 @@
           </folding>
         </state>
       </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/add_note.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.703703">
+          <caret line="140" column="39" selection-start-line="140" selection-start-column="39" selection-end-line="140" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.085388996">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.028462999">
+          <caret line="1" column="128" selection-start-line="1" selection-start-column="128" selection-end-line="1" selection-end-column="128" />
+          <folding />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <caret line="9" column="79" selection-start-line="9" selection-start-column="79" selection-end-line="9" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/ViewNote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.481482">
-          <caret line="500" column="8" selection-start-line="500" selection-start-column="8" selection-end-line="510" selection-end-column="9" />
-          <folding>
-            <element signature="e#8601#8923#0" expanded="true" />
-            <element signature="e#8922#8923#0" expanded="true" />
-            <element signature="e#9194#9407#0" expanded="true" />
-            <element signature="e#9406#9407#0" expanded="true" />
-            <element signature="e#9442#9589#0" expanded="true" />
-            <element signature="e#9588#9589#0" expanded="true" />
-            <element signature="e#21065#21098#0" expanded="true" />
-            <element signature="e#21302#21342#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="187" column="16" selection-start-line="187" selection-start-column="16" selection-end-line="187" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/AddNote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="431" column="67" selection-start-line="431" selection-start-column="67" selection-end-line="431" selection-end-column="67" />
+        <state vertical-scroll-proportion="3.4057071">
+          <caret line="287" column="51" selection-start-line="287" selection-start-column="51" selection-end-line="287" selection-end-column="51" />
           <folding>
-            <element signature="e#7538#7751#0" expanded="true" />
-            <element signature="e#7750#7751#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/connectionws/DeleteHttp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7743097">
-          <caret line="56" column="49" selection-start-line="56" selection-start-column="49" selection-end-line="56" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding>
-            <element signature="e#13265#13266#0" expanded="true" />
-            <element signature="e#13297#13298#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Looper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ruben/rma/prettynotes/activities/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37717122">
-          <caret line="327" column="17" selection-start-line="327" selection-start-column="17" selection-end-line="327" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3770#3789#0" expanded="true" />
-            <element signature="e#11692#12021#0" expanded="true" />
-            <element signature="e#12020#12021#0" expanded="true" />
-            <element signature="e#13537#13538#0" expanded="true" />
-            <element signature="e#13577#13578#0" expanded="true" />
+            <element signature="e#3931#5131#0" expanded="true" />
+            <element signature="e#5130#5131#0" expanded="true" />
           </folding>
         </state>
       </provider>

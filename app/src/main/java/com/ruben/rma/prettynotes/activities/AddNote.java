@@ -3,6 +3,7 @@ package com.ruben.rma.prettynotes.activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -22,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
@@ -106,6 +108,7 @@ public class AddNote extends AppCompatActivity {
     private ImageButton btnSpeak;
     private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 300;
+    private AlertDialog alert = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +131,7 @@ public class AddNote extends AppCompatActivity {
                         if (options[seleccion] == "Tomar foto") {
                             openCamera();
                         } else if (options[seleccion] == "Elegir de galeria") {
-                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.setType("image/*");
                             startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
                         }
@@ -148,37 +151,42 @@ public class AddNote extends AppCompatActivity {
         mRevealView = (LinearLayout) findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.INVISIBLE);
 
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        longitude = 0;
-        latitude =  0;
-        LatLng  currentLocation = new LatLng(latitude, longitude);
+        if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),1000);
+        }else {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                return;
+            } else {
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                LatLng  currentLocation = new LatLng(latitude, longitude);
+                NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
+                        new NamedLocation(getLocationName(latitude,longitude), currentLocation)
+                };
+                mAdapter = new MapAdapter(getContext(), LIST_LOCATIONS);
+            }
+        }
+
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
-        NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
-                new NamedLocation(getLocationName(latitude,longitude), currentLocation)
-        };
-        mAdapter = new MapAdapter(this, LIST_LOCATIONS);
+
         mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
         mList.getView().setVisibility(View.INVISIBLE);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRevealView.setVisibility(View.INVISIBLE);
-                mList.getView().setVisibility(View.VISIBLE);
-                mList.setListAdapter(mAdapter);
-                locationSaved = true;
+
+                    mRevealView.setVisibility(View.INVISIBLE);
+                    mList.getView().setVisibility(View.VISIBLE);
+                    mList.setListAdapter(mAdapter);
+                    locationSaved = true;
+
+
+
             }
         });
 
@@ -193,6 +201,50 @@ public class AddNote extends AppCompatActivity {
                 promptSpeechInput();
             }
         });
+    }
+
+    public AlertDialog createSimpleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Titulo")
+                .setMessage("El Mensaje para el usuario")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            }
+                        })
+                .setNegativeButton("CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+        return builder.create();
+    }
+
+    private void alertNoGPS() {
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("El sistema GPS está desactivado, ¿desea activarlo?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(@SuppressWarnings("unused")final DialogInterface dialog, @SuppressWarnings("unused")final int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, @SuppressWarnings("unused")final int which) {
+                dialog.cancel();
+            }
+        });
+        alert = builder.create();
+        alert.show();
+        System.out.println("Si o no.");
     }
 
     private void promptSpeechInput() {
@@ -237,6 +289,26 @@ public class AddNote extends AppCompatActivity {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     txtSpeechInput.setText(result.get(0));
                 }
+                break;
+            }
+
+            case 1000:{
+                LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    return;
+                }else{
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    longitude = location.getLongitude();
+                    latitude =  location.getLatitude();
+                }
+
+                LatLng  currentLocation = new LatLng(latitude, longitude);
+                NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
+                        new NamedLocation(getLocationName(latitude,longitude), currentLocation)
+                };
+                mAdapter = new MapAdapter(getContext(), LIST_LOCATIONS);
+
                 break;
             }
         }
@@ -666,5 +738,9 @@ public class AddNote extends AppCompatActivity {
         }
         System.out.println("Data : " + data.length + data.toString());
         return data;
+    }
+
+    public Context getContext(){
+        return  this;
     }
 }

@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
@@ -173,35 +174,36 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         CONTENT.setText(content);
 
 
-        // Set a custom list adapter for a list of locations
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),1000);
+        }else {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                return;
+            } else {
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                LatLng  currentLocation = new LatLng(latitude, longitude);
+                NamedLocation[] LIST_LOCATIONS;
+                if(oldLocation != null){
+                    LIST_LOCATIONS = new NamedLocation[]{
+                            new NamedLocation(getLocationName(oldLatitude,oldLongitude), oldLocation)
+                    };
+                }else{
+                    LIST_LOCATIONS = new NamedLocation[]{
+                            new NamedLocation(getLocationName(latitude,longitude), currentLocation)
+                    };
+                }
+                mAdapter = new MapAdapter(getContext(), LIST_LOCATIONS);
+            }
         }
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        longitude = 0;
-        latitude = 0;
-        LatLng  currentLocation = new LatLng(latitude, longitude);
 
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
-        NamedLocation[] LIST_LOCATIONS;
-        if(oldLocation != null){
-            LIST_LOCATIONS = new NamedLocation[]{
-                    new NamedLocation(getLocationName(oldLatitude,oldLongitude), oldLocation)
-            };
-        }else{
-            LIST_LOCATIONS = new NamedLocation[]{
-                new NamedLocation(getLocationName(latitude,longitude), currentLocation)
-            };
-        }
-        mAdapter = new MapAdapter(this, LIST_LOCATIONS);
+
+
         mList.setListAdapter(mAdapter);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -265,6 +267,26 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     txtSpeechInput.setText(result.get(0));
                 }
+                break;
+            }
+
+            case 1000:{
+                LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    return;
+                }else{
+                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    longitude = location.getLongitude();
+                    latitude =  location.getLatitude();
+                }
+
+                LatLng  currentLocation = new LatLng(latitude, longitude);
+                NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
+                        new NamedLocation(getLocationName(latitude,longitude), currentLocation)
+                };
+                mAdapter = new MapAdapter(getContext(), LIST_LOCATIONS);
+
                 break;
             }
         }
@@ -746,5 +768,9 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
             tts.shutdown();
         }
         super.onDestroy();
+    }
+
+    public Context getContext(){
+        return  this;
     }
 }
