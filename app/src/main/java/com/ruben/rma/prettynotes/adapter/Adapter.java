@@ -35,7 +35,6 @@ public class Adapter extends ArrayAdapter<Note> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // 2. Get rowView from inflater
-
         View rowView = inflater.inflate(R.layout.note_list_row, parent, false);
 
         // 3. Get icons and title views from the rowView
@@ -45,13 +44,13 @@ public class Adapter extends ArrayAdapter<Note> {
         mapIcon.setVisibility(View.INVISIBLE);
         TextView titleView = (TextView) rowView.findViewById(R.id.title);
 
-        Note n = modelsArrayList.get(position);
+        Note note = modelsArrayList.get(position);
 
         // 4. Set the text for textView
-        if(modelsArrayList.get(position).getLatitude() != null){
+        if(note.getLatitude() != null){
             mapIcon.setVisibility(View.VISIBLE);
         }
-        if(modelsArrayList.get(position).getImage() != null){
+        if(note.getImage() != null){
             imageIcon.setVisibility(View.VISIBLE);
         }
         titleView.setText(modelsArrayList.get(position).getTittle());

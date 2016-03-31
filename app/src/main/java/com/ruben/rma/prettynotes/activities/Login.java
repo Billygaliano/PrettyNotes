@@ -25,7 +25,6 @@ import org.json.JSONObject;
 
 public class Login extends Activity {
 
-    private TextView info;
     private CallbackManager callbackManager;
     private NoteBD DB;
     LoginButton loginButton;
@@ -39,7 +38,6 @@ public class Login extends Activity {
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
-        info = (TextView)findViewById(R.id.info);
         DB =new NoteBD(this);
         loginButton = (LoginButton) findViewById(R.id.login_button);
         acceso = new Intent(this,MainActivity.class);
@@ -65,6 +63,7 @@ public class Login extends Activity {
 
 
         }else{
+
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>(){
                 @Override
                 public void onSuccess(final LoginResult loginResult) {
@@ -81,7 +80,9 @@ public class Login extends Activity {
                                     try{
                                         JSONObject userParam = new JSONObject();
                                         userParam.put("email",user.getFacebookUserID());
-                                        new PostHttp(context).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.usernotes?", userParam.toString());
+                                        new PostHttp(context).execute("" +
+                                                        "http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.usernotes?",
+                                                userParam.toString());
 
                                     }catch (JSONException e) {
                                         e.printStackTrace();
@@ -108,6 +109,7 @@ public class Login extends Activity {
                 @Override
                 public void onError(FacebookException error) {}
             });
+
         }
 
     }

@@ -71,9 +71,7 @@ import java.util.Locale;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
-/**
- * Created by RMA on 14/04/2015.
- */
+
 public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitListener {
     String title, content, email;
     TextView TITLE,CONTENT;
@@ -94,12 +92,12 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
     private ImageView imageView;
     private String oldImage;
     private boolean locationSaved = false;
-
     private ImageButton btnSpeak;
     private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 300;
     private Button btn;
     private TextToSpeech tts;
+    private final int LOCATION_CATIVATE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -177,7 +175,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),1000);
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),LOCATION_CATIVATE);
         }else {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -270,7 +268,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                 break;
             }
 
-            case 1000:{
+            case LOCATION_CATIVATE:{
                 LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling

@@ -42,10 +42,10 @@
             android:layout_height="120px"
             android:layout_below="@+id/seek_bar"
             android:layout_marginTop="60px"
-            android:gravity="center"
             android:background="@drawable/play"
             android:clickable="true"
-            android:contextClickable="true" />
+            android:contextClickable="true"
+            android:layout_gravity="center_horizontal" />
 
 
         <ImageView
@@ -53,7 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:contentDescription="@string/contentDescriptionImagenSet"
-            android:layout_below="@+id/buttonImage"/>
+            android:layout_below="@+id/buttonImage"
+            android:focusable="false" />
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -72,8 +73,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="wrap_content">
 
         <io.codetail.widget.RevealFrameLayout
             android:layout_width="match_parent"

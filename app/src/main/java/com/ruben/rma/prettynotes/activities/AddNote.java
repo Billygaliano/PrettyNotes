@@ -3,10 +3,8 @@ package com.ruben.rma.prettynotes.activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,13 +23,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -55,12 +49,8 @@ import com.ruben.rma.prettynotes.model.Note;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,9 +69,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by RMA on 14/04/2015.
- */
+
 public class AddNote extends AppCompatActivity {
 
     EditText TITLE, CONTENT;
@@ -109,6 +97,7 @@ public class AddNote extends AppCompatActivity {
     private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 300;
     private AlertDialog alert = null;
+    private final int LOCATION_CATIVATE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +143,11 @@ public class AddNote extends AppCompatActivity {
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),1000);
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),LOCATION_CATIVATE);
         }else {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 return;
             } else {
@@ -179,14 +170,10 @@ public class AddNote extends AppCompatActivity {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     mRevealView.setVisibility(View.INVISIBLE);
                     mList.getView().setVisibility(View.VISIBLE);
                     mList.setListAdapter(mAdapter);
                     locationSaved = true;
-
-
-
             }
         });
 
@@ -201,50 +188,6 @@ public class AddNote extends AppCompatActivity {
                 promptSpeechInput();
             }
         });
-    }
-
-    public AlertDialog createSimpleDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Titulo")
-                .setMessage("El Mensaje para el usuario")
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            }
-                        })
-                .setNegativeButton("CANCELAR",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-        return builder.create();
-    }
-
-    private void alertNoGPS() {
-
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("El sistema GPS está desactivado, ¿desea activarlo?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(@SuppressWarnings("unused")final DialogInterface dialog, @SuppressWarnings("unused")final int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialog, @SuppressWarnings("unused")final int which) {
-                dialog.cancel();
-            }
-        });
-        alert = builder.create();
-        alert.show();
-        System.out.println("Si o no.");
     }
 
     private void promptSpeechInput() {
@@ -283,6 +226,7 @@ public class AddNote extends AppCompatActivity {
                     imageView.setImageURI(path);
                 }
                 break;
+
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
@@ -290,9 +234,10 @@ public class AddNote extends AppCompatActivity {
                     txtSpeechInput.setText(result.get(0));
                 }
                 break;
+
             }
 
-            case 1000:{
+            case LOCATION_CATIVATE:{
                 LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -721,23 +666,6 @@ public class AddNote extends AppCompatActivity {
         }
         return cityName;
 
-    }
-
-    public byte[] convertImageToByte(Uri uri){
-        byte[] data = null;
-        System.out.println("Uri: " + uri);
-        try {
-            ContentResolver cr = getBaseContext().getContentResolver();
-            InputStream inputStream = cr.openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            data = baos.toByteArray();
-        } catch (FileNotFoundException e) {
-            System.out.println("Error al convertir la foto");
-        }
-        System.out.println("Data : " + data.length + data.toString());
-        return data;
     }
 
     public Context getContext(){
