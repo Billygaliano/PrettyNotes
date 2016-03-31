@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.facebook.login.LoginManager;
+import com.ruben.rma.prettynotes.adapter.Adapter;
+import com.ruben.rma.prettynotes.connectionws.DeleteHttp;
 import com.ruben.rma.prettynotes.connectionws.PostHttp;
 import com.ruben.rma.prettynotes.data.NoteBD;
 import com.ruben.rma.prettynotes.R;
@@ -68,16 +70,6 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         lista = (ListView) findViewById(R.id.listView_Lista);
-        //Se mostrará en la lista los correspondientes títulos de las notas en los cuales se puede clickar con lo que conllevará a su respectiva acción
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Obtenemos el titulo de la nota en la variable
-                getTitle = (String) lista.getItemAtPosition(position);
-                //Llamamos a la funciones alert con la cadena lista que nos mostrara un mensaje de alerta con la accion que queremos llevar a cabo
-                actividad("edit");
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +79,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        System.out.println("ESTOY AKIII " + email);
         new GetHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/" + email);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 
@@ -131,14 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
     private void showNotes() {
         //Creamos un tipo de base de datos
         DB = new NoteBD(this);
         //Obtenemos el contenido de las notas
         Cursor c = DB.getNoteByUser(email);
         item = new ArrayList<String>();
-        String title = "";
+        ArrayList<Note> notes = new ArrayList<>();
         //Nos aseguramos de que existe al menos unr egistro
         if (c.moveToFirst() == false) {
             //el cursor esta vacio
@@ -146,14 +144,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Recorremos el cursor hasta que no haya mas registros
             do {
-                title = c.getString(1);
-                //Pongo 1 xq columna empieza desde valor 0, y en el 0 esta el id de la nota, en el 1 el titulo de la nota y el el 2 el contenido
-                item.add(title);
+                notes.add(new Note(c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6)));
+
             } while (c.moveToNext());
         }
         //Vamos a crear un adaptador de tipo ArrayAdapter
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, item);
-        lista.setAdapter(adaptador);
+        Adapter adapter = new Adapter(this, notes);
+        lista.setAdapter(adapter);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Obtenemos el titulo de la nota en la variable
+                Note n = (Note) lista.getItemAtPosition(position);
+                getTitle = n.getTittle();
+
+                //Llamamos a la funciones alert con la cadena lista que nos mostrara un mensaje de alerta con la accion que queremos llevar a cabo
+                actividad("edit");
+            }
+        });
     }
 
     public Note getNote() {
@@ -281,7 +289,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Si la cadena es "deletes" llamamos a la funcion deleteNotes de la clase de base de datos y borrará todas las notas
             if (f.equals("deletes")) {
-                DB.deleteNotes();
+                Cursor c = DB.getNoteByUser(email);
+
+                if (c.moveToFirst()) {
+                    do {
+                        try {
+                            JSONObject jsonParam = new JSONObject();
+                            jsonParam.put("tittle", c.getString(1));
+                            jsonParam.put("email", email);
+                            new DeleteHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note/1/1", jsonParam.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } while (c.moveToNext());
+
+                    DB.deleteNotes();
+                }
             }
         }
     }

@@ -37,6 +37,16 @@
             android:background="@drawable/apptheme_edit_text_holo_light"
             android:inputType="textMultiLine"/>
 
+        <Button android:id="@+id/btn"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_below="@+id/seek_bar"
+            android:layout_marginTop="60px"
+            android:gravity="center"
+            android:background="@drawable/play"
+            android:clickable="true"
+            android:contextClickable="true" />
+
 
         <ImageView
             android:id="@+id/setPicture"
@@ -109,13 +119,14 @@
                     <ImageButton
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/audio_icon" />
+                        android:background="@drawable/grabar"
+                        android:id="@+id/audio_image" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Audio"
+                        android:text="Grabar"
                         android:textColor="#ffffff" />
                 </LinearLayout>
 
@@ -129,7 +140,7 @@
                     <ImageButton
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@drawable/map_icon"
+                        android:background="@drawable/mark"
                         android:id="@+id/mapButton"
                         android:clickable="true" />
 
@@ -137,7 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Mi ubicación"
+                        android:text="Ubicación"
                         android:textColor="#ffffff" />
                 </LinearLayout>
 

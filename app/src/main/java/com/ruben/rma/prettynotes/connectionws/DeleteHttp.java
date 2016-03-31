@@ -52,9 +52,9 @@ public class DeleteHttp extends AsyncTask<String, Void, String> {
 
             int responseCode = con.getResponseCode();
 
-            result = "\nSending 'POST' request to URL : " + url + "\nResponse Code : " + responseCode;
+            result = "\nSending 'DELETE' request to URL : " + url + "\nResponse Code : " + responseCode;
 
-            System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("\nSending 'DELETE' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
 

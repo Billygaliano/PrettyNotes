@@ -14,6 +14,17 @@ public class Note {
     private String latitude;
     private String longitude;
 
+    public Note() {}
+
+    public Note(String tittle, String content, String date, String image, String latitude, String longitude) {
+        this.tittle = tittle;
+        this.content = content;
+        this.date = date;
+        this.image = image;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public BigDecimal getIdNote() {
         return noteID;
     }

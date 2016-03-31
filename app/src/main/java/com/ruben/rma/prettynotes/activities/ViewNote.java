@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,10 +20,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +61,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +73,7 @@ import io.codetail.animation.ViewAnimationUtils;
 /**
  * Created by RMA on 14/04/2015.
  */
-public class ViewNote extends AppCompatActivity {
+public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitListener {
     String title, content, email;
     TextView TITLE,CONTENT;
     NoteBD DB;
@@ -77,15 +83,22 @@ public class ViewNote extends AppCompatActivity {
     private ListFragment mList;
     private MapAdapter mAdapter;
     double latitude, longitude, oldLatitude, oldLongitude;
-    private String APP_DIRECTORY = "myPictureApp/";
-    private String MEDIA_DIRECTORY = APP_DIRECTORY + "media";
-    private String TEMPORAL_PICTURE_NAME = "temporal.jpg";
+    private String APP_DIRECTORY = "DCIM/";
+    private String MEDIA_DIRECTORY = APP_DIRECTORY + "Camera";
+    private String TEMPORAL_PICTURE_NAME = ".jpg";
+    private String FOTO_TIEMPO = "";
     Uri path = null;
     private final int PHOTO_CODE = 100;
     private final int SELECT_PICTURE = 200;
     private ImageView imageView;
     private String oldImage;
     private boolean locationSaved = false;
+
+    private ImageButton btnSpeak;
+    private TextView txtSpeechInput;
+    private final int REQ_CODE_SPEECH_INPUT = 300;
+    private Button btn;
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -98,6 +111,7 @@ public class ViewNote extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRevealView.setVisibility(View.INVISIBLE);
                 final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ViewNote.this);
                 builder.setTitle("Elige una opcion :D");
@@ -172,8 +186,8 @@ public class ViewNote extends AppCompatActivity {
             return;
         }
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        longitude = 0;
+        latitude = 0;
         LatLng  currentLocation = new LatLng(latitude, longitude);
 
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
@@ -199,6 +213,28 @@ public class ViewNote extends AppCompatActivity {
                 locationSaved = true;
             }
         });
+
+        tts = new TextToSpeech(this, this);
+        txtSpeechInput = (TextView) findViewById(R.id.textView_content);
+        btnSpeak = (ImageButton) findViewById(R.id.audio_image);
+        btn = (Button) findViewById(R.id.btn);
+
+
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mRevealView.setVisibility(View.INVISIBLE);
+                promptSpeechInput();
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                speakOut();
+            }
+        });
     }
 
     @Override
@@ -206,11 +242,13 @@ public class ViewNote extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
+
             case PHOTO_CODE:
                 if(resultCode == RESULT_OK){
                     String dir =  Environment.getExternalStorageDirectory() + File.separator
-                            + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+                            + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
                     decodeBitmap(dir);
+                    path = Uri.parse(dir);
                 }
                 break;
 
@@ -220,6 +258,15 @@ public class ViewNote extends AppCompatActivity {
                     imageView.setImageURI(path);
                 }
                 break;
+
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtSpeechInput.setText(result.get(0));
+                }
+                break;
+            }
         }
 
     }
@@ -235,8 +282,13 @@ public class ViewNote extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
         file.mkdirs();
 
+        Date dateNote = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String datefoto = dateFormat.format(dateNote);
+        FOTO_TIEMPO = datefoto.replace('-','_').replace(' ','_').replace(':','_');
+
         String path = Environment.getExternalStorageDirectory() + File.separator
-                + MEDIA_DIRECTORY + File.separator + TEMPORAL_PICTURE_NAME;
+                + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
 
         File newFile = new File(path);
 
@@ -419,8 +471,8 @@ public class ViewNote extends AppCompatActivity {
     }
 
     public  void Mensaje (String msj){
-        Toast toast = Toast.makeText(this,msj, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+        Toast toast = Toast.makeText(this, msj, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }
 
@@ -461,6 +513,43 @@ public class ViewNote extends AppCompatActivity {
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("email", email);
         startActivity(intent);
+    }
+
+    @Override
+    public void onInit(int status) {
+
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.getDefault());
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+                btnSpeak.setEnabled(true);
+            }
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+    }
+
+    private void speakOut() {
+        String text = txtSpeechInput.getText().toString();
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -647,5 +736,15 @@ public class ViewNote extends AppCompatActivity {
         }
         return cityName;
 
+    }
+
+    @Override
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
 }

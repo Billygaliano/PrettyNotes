@@ -80,7 +80,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by RMA on 14/04/2015.
  */
-public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class AddNote extends AppCompatActivity {
 
     EditText TITLE, CONTENT;
     NoteBD DB;
@@ -94,11 +94,10 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
     private ListFragment mList;
     private MapAdapter mAdapter;
 
-    private String APP_DIRECTORY = "myPictureApp/";
-    private String MEDIA_DIRECTORY = APP_DIRECTORY + "media";
+    private String APP_DIRECTORY = "DCIM/";
+    private String MEDIA_DIRECTORY = APP_DIRECTORY + "Camera";
     private String TEMPORAL_PICTURE_NAME = "temporal.jpg";
     private String FOTO_TIEMPO = "";
-    SimpleDateFormat dateF = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     Uri path = null;
     private final int PHOTO_CODE = 100;
     private final int SELECT_PICTURE = 200;
@@ -107,8 +106,6 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
     private ImageButton btnSpeak;
     private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 300;
-    private Button btn;
-    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +148,6 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
         mRevealView = (LinearLayout) findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.INVISIBLE);
 
-        // Set a custom list adapter for a list of locations
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -165,8 +161,8 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        longitude = location.getLongitude();
-        latitude =  location.getLatitude();
+        longitude = 0;
+        latitude =  0;
         LatLng  currentLocation = new LatLng(latitude, longitude);
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
         NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
@@ -186,18 +182,8 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
             }
         });
 
-
-        tts = new TextToSpeech(this, this);
         txtSpeechInput = (TextView) findViewById(R.id.editText_Nota);
         btnSpeak = (ImageButton) findViewById(R.id.audio_image);
-        btn = (Button) findViewById(R.id.btn);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                speakOut();
-            }
-        });
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -207,28 +193,6 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
                 promptSpeechInput();
             }
         });
-    }
-
-    @Override
-    public void onInit(int status) {
-
-        if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(Locale.getDefault());
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "This Language is not supported");
-            } else {
-                btnSpeak.setEnabled(true);
-                speakOut();
-            }
-        } else {
-            Log.e("TTS", "Initilization Failed!");
-        }
-    }
-
-    private void speakOut() {
-        String text = txtSpeechInput.getText().toString();
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     private void promptSpeechInput() {
@@ -257,6 +221,7 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
                     String dir =  Environment.getExternalStorageDirectory() + File.separator
                             + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
                     decodeBitmap(dir);
+                    path = Uri.parse(dir);
                 }
                 break;
 
@@ -464,10 +429,10 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
 
                         if(path != null) {
                             int i =0;
-                            byte[] photo = convertImageToByte(path);
-                            System.out.println("Aqui los datos son estos: " + photo.toString());
-                            String p = Base64.encodeToString(photo, Base64.DEFAULT);
-                            jsonParam.put("photo", p);
+                            //byte[] photo = convertImageToByte(path);
+                            //System.out.println("Aqui los datos son estos: " + photo.toString());
+                            //String p = Base64.encodeToString(photo, Base64.DEFAULT);
+                            //jsonParam.put("photo", p);
                         }
                         if(locationSaved){
                             jsonParam.put("latitude", note.getLatitude());
@@ -701,15 +666,5 @@ public class AddNote extends AppCompatActivity implements TextToSpeech.OnInitLis
         }
         System.out.println("Data : " + data.length + data.toString());
         return data;
-    }
-
-    @Override
-    public void onDestroy() {
-        // Don't forget to shutdown tts!
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onDestroy();
     }
 }
