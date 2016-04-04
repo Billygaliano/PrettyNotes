@@ -13,9 +13,8 @@ import java.net.URL;
  * Created by inftel12 on 29/3/16.
  */
 public class DeleteHttp extends AsyncTask<String, Void, String> {
+
     private final Context context;
-
-
     public DeleteHttp(Context c){
         this.context = c;
     }
@@ -27,15 +26,12 @@ public class DeleteHttp extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... param) {
 
         String result="";
-        StringBuilder sb = new StringBuilder();
         HttpURLConnection con;
 
         try {
 
-
             URL url = new URL(param[0]);
             con = (HttpURLConnection)url.openConnection();
-
 
             con.setDoOutput(true);
             con.setRequestMethod("POST");
@@ -44,7 +40,7 @@ public class DeleteHttp extends AsyncTask<String, Void, String> {
             // Get JSONObject here
             String jsonParam = param[1];
 
-            // SUBIR JSON
+            // Upload JSON
             OutputStreamWriter out = new   OutputStreamWriter(con.getOutputStream());
             out.write(jsonParam);
             out.flush();
@@ -53,12 +49,6 @@ public class DeleteHttp extends AsyncTask<String, Void, String> {
             int responseCode = con.getResponseCode();
 
             result = "\nSending 'DELETE' request to URL : " + url + "\nResponse Code : " + responseCode;
-
-            System.out.println("\nSending 'DELETE' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-
-
-
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block

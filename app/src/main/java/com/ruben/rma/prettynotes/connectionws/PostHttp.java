@@ -15,8 +15,6 @@ import java.net.URL;
 public class PostHttp extends AsyncTask<String, Void, String> {
 
     private final Context context;
-
-
     public PostHttp(Context c){
         this.context = c;
     }
@@ -28,15 +26,12 @@ public class PostHttp extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... param) {
 
         String result="";
-        StringBuilder sb = new StringBuilder();
         HttpURLConnection con;
 
         try {
 
-
             URL url = new URL(param[0]);
             con = (HttpURLConnection)url.openConnection();
-
 
             con.setDoOutput(true);
             con.setRequestMethod("POST");
@@ -44,11 +39,9 @@ public class PostHttp extends AsyncTask<String, Void, String> {
 
             // Get JSONObject here
             String jsonParam = param[1];
-            System.out.println("ESTOY AKI 3");
 
-            // SUBIR JSON
+            // Upload JSON
             OutputStreamWriter out = new   OutputStreamWriter(con.getOutputStream());
-            System.out.println("ESTOY AKI 4");
             out.write(jsonParam);
             out.flush();
             out.close();
@@ -56,12 +49,6 @@ public class PostHttp extends AsyncTask<String, Void, String> {
             int responseCode = con.getResponseCode();
 
             result = "\nSending 'POST' request to URL : " + url + "\nResponse Code : " + responseCode;
-
-            System.out.println("\nSending 'POST' request to URL : " + url);
-            System.out.println("Response Code : " + responseCode);
-
-
-
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block

@@ -69,7 +69,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
 public class AddNote extends AppCompatActivity {
 
     EditText TITLE, CONTENT;
@@ -110,23 +109,23 @@ public class AddNote extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRevealView.setVisibility(View.INVISIBLE);
-                final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(AddNote.this);
-                builder.setTitle("Elige una opcion");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int seleccion) {
-                        if (options[seleccion] == "Tomar foto") {
-                            openCamera();
-                        } else if (options[seleccion] == "Elegir de galeria") {
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            intent.setType("image/*");
-                            startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
-                        }
+            mRevealView.setVisibility(View.INVISIBLE);
+            final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
+            final AlertDialog.Builder builder = new AlertDialog.Builder(AddNote.this);
+            builder.setTitle("Elige una opcion");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int seleccion) {
+                    if (options[seleccion] == "Tomar foto") {
+                        openCamera();
+                    } else if (options[seleccion] == "Elegir de galeria") {
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/*");
+                        startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
                     }
-                });
-                builder.show();
+                }
+            });
+            builder.show();
             }
         });
 
@@ -211,21 +210,23 @@ public class AddNote extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
-            case PHOTO_CODE:
-                if(resultCode == RESULT_OK){
-                    String dir =  Environment.getExternalStorageDirectory() + File.separator
+            case PHOTO_CODE: {
+                if (resultCode == RESULT_OK) {
+                    String dir = Environment.getExternalStorageDirectory() + File.separator
                             + MEDIA_DIRECTORY + File.separator + FOTO_TIEMPO + TEMPORAL_PICTURE_NAME;
                     decodeBitmap(dir);
                     path = Uri.parse(dir);
                 }
                 break;
+            }
 
-            case SELECT_PICTURE:
-                if(resultCode == RESULT_OK){
+            case SELECT_PICTURE: {
+                if (resultCode == RESULT_OK) {
                     path = data.getData();
                     imageView.setImageURI(path);
                 }
                 break;
+            }
 
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
@@ -234,7 +235,6 @@ public class AddNote extends AppCompatActivity {
                     txtSpeechInput.setText(result.get(0));
                 }
                 break;
-
             }
 
             case LOCATION_CATIVATE:{
@@ -286,7 +286,6 @@ public class AddNote extends AppCompatActivity {
         startActivityForResult(intent, PHOTO_CODE);
     }
 
-    //Metodo sobrescrito de la clase listaactivity que se encarga de crear el meu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_create_note, menu);
@@ -296,7 +295,7 @@ public class AddNote extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id=item.getItemId();
-        //Mediante getItem se obtiene el vlaor del botn pulsado
+
         switch (id){
             case R.id.action_save:
                 addUpdateNotes();
@@ -324,37 +323,30 @@ public class AddNote extends AppCompatActivity {
                         animator_reverse.addListener(new SupportAnimator.AnimatorListener() {
                             @Override
                             public void onAnimationStart() {
-
                             }
 
                             @Override
                             public void onAnimationEnd() {
                                 mRevealView.setVisibility(View.INVISIBLE);
                                 hidden = true;
-
                             }
 
                             @Override
-                            public void onAnimationCancel() {
-
-                            }
+                            public void onAnimationCancel() {}
 
                             @Override
-                            public void onAnimationRepeat() {
-
-                            }
+                            public void onAnimationRepeat() {}
                         });
                         animator_reverse.start();
-
                     }
 
                 } else {
                     if (hidden) {
                         Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
                         mRevealView.setVisibility(View.VISIBLE);
+
                         anim.start();
                         hidden = false;
-
                     } else {
                         Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, radius, 0);
                         anim.addListener(new AnimatorListenerAdapter() {
@@ -365,8 +357,8 @@ public class AddNote extends AppCompatActivity {
                                 hidden = true;
                             }
                         });
-                        anim.start();
 
+                        anim.start();
                     }
                 }
 
@@ -377,10 +369,9 @@ public class AddNote extends AppCompatActivity {
     }
 
     private void addUpdateNotes(){
-        //Se ha podido llegar a la funcion tanto para añadir una nota como para editarla
         DB =new NoteBD(this);
         Note note = new Note();
-        //Convertimos el titulo y el contenido a cadena de texto
+
         note.setTittle(TITLE.getText().toString());
         note.setContent(CONTENT.getText().toString());
         String latitudeNote = String.valueOf(latitude);
@@ -389,33 +380,27 @@ public class AddNote extends AppCompatActivity {
         note.setLongitude(longitudeNote);
 
         if(note.getTittle().equals("")){
-            //El titulo no puede estar vacío
             msj="Añade un título";
             TITLE.requestFocus();
             Mensaje(msj);
         }else{
             if(note.getContent().equals("")){
-                //el contendido no puede estar vacío
                 msj="Añade el contenido";
                 CONTENT.requestFocus();
                 Mensaje(msj);
             }else{
-                //Una vez asegurados que han escrito en los dos campos recorremos la base de datos comprobando
-                //que no hay una nota con igual título
                 Cursor c = DB.getNote(note.getTittle());
                 String gettitle="";
-                //Nos aseguramos de que existe al menos un registro
+
                 if(c.moveToFirst()){
-                    //Recorremos el cursor hasta que no haya mas registros
                     do{
                         gettitle=c.getString(1);
                         getId = c.getInt(0);
-                        //Pongo 1 xq columna empieza desde valor 0, y en el 0 esta el id de la nota, en el 1 el titulo de la nota y el el 2 el contenido
                     }while(c.moveToNext());
                 }
                 if(gettitle.equals(note.getTittle())){
                     TITLE.requestFocus();
-                    msj="EL título de la nota ya existe";
+                    msj="Ya existe una nota con este título";
                     Mensaje(msj);
                 }else{
                     Date dateNote = new Date();
@@ -436,7 +421,6 @@ public class AddNote extends AppCompatActivity {
 
                     try {
                         JSONObject userParam = new JSONObject();
-                        System.out.println("EMAIL: " + email);
                         userParam.put("idUser",0);
                         userParam.put("email",email);
 
@@ -447,10 +431,10 @@ public class AddNote extends AppCompatActivity {
                         if(path != null) {
                             int i =0;
                             //byte[] photo = convertImageToByte(path);
-                            //System.out.println("Aqui los datos son estos: " + photo.toString());
                             //String p = Base64.encodeToString(photo, Base64.DEFAULT);
                             //jsonParam.put("photo", p);
                         }
+
                         if(locationSaved){
                             jsonParam.put("latitude", note.getLatitude());
                             jsonParam.put("longitude", note.getLongitude());
@@ -458,10 +442,9 @@ public class AddNote extends AppCompatActivity {
                             jsonParam.put("latitude", null);
                             jsonParam.put("longitude", null);
                         }
+
                         jsonParam.put("dateNote", dateFormat.format(dateNote));
                         jsonParam.put("idUser", userParam);
-
-
 
                         new PostHttp(this).execute("http://192.168.1.127:8080/PrettyNotesWS/webresources/entity.note?", jsonParam.toString());
 
@@ -469,7 +452,6 @@ public class AddNote extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    //Volvemos al activity principal
                     Intent intent = new Intent(AddNote.this,MainActivity.class);
                     intent.putExtra("email", email);
                     startActivity(intent);
@@ -497,7 +479,6 @@ public class AddNote extends AppCompatActivity {
         public MapAdapter(Context context, NamedLocation[] locations) {
             super(context, R.layout.add_note, R.id.lite_listrow_text, locations);
         }
-
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -578,11 +559,8 @@ public class AddNote extends AppCompatActivity {
      * display.
      */
     class ViewHolder implements OnMapReadyCallback {
-
         MapView mapView;
-
         TextView title;
-
         GoogleMap map;
 
         @Override
@@ -625,7 +603,6 @@ public class AddNote extends AppCompatActivity {
                 holder.map.clear();
                 holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
             }
-
         }
     };
 
@@ -634,9 +611,7 @@ public class AddNote extends AppCompatActivity {
      * name ({@link java.lang.String}).
      */
     private static class NamedLocation {
-
         public final String name;
-
         public final LatLng location;
 
         NamedLocation(String name, LatLng location) {
@@ -665,7 +640,6 @@ public class AddNote extends AppCompatActivity {
             e.printStackTrace();
         }
         return cityName;
-
     }
 
     public Context getContext(){

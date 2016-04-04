@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
-import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -44,7 +43,6 @@ public class Login extends Activity {
         final Context context = this;
 
         if(isLoggedIn()){
-
             if(Profile.getCurrentProfile() == null) {
                 ProfileTracker profileTracker = new ProfileTracker() {
                     @Override
@@ -60,10 +58,7 @@ public class Login extends Activity {
                 acceso.putExtra("email", emailUser);
                 startActivity(acceso);
             }
-
-
         }else{
-
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>(){
                 @Override
                 public void onSuccess(final LoginResult loginResult) {
@@ -109,9 +104,7 @@ public class Login extends Activity {
                 @Override
                 public void onError(FacebookException error) {}
             });
-
         }
-
     }
 
     public boolean isLoggedIn() {

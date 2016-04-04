@@ -71,7 +71,6 @@ import java.util.Locale;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
-
 public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitListener {
     String title, content, email;
     TextView TITLE,CONTENT;
@@ -110,25 +109,25 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRevealView.setVisibility(View.INVISIBLE);
-                final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ViewNote.this);
-                builder.setTitle("Elige una opcion :D");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int seleccion) {
-                        if (options[seleccion] == "Tomar foto") {
-                            openCamera();
-                        } else if (options[seleccion] == "Elegir de galeria") {
-                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            intent.setType("image/*");
-                            startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
-                        } else if (options[seleccion] == "Cancelar") {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
+            mRevealView.setVisibility(View.INVISIBLE);
+            final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ViewNote.this);
+            builder.setTitle("Elige una opcion :D");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int seleccion) {
+                if (options[seleccion] == "Tomar foto") {
+                    openCamera();
+                } else if (options[seleccion] == "Elegir de galeria") {
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
+                } else if (options[seleccion] == "Cancelar") {
+                    dialog.dismiss();
+                }
+                }
+            });
+            builder.show();
             }
         });
 
@@ -142,11 +141,10 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
         mList.getView().setVisibility(View.INVISIBLE);
 
-        //obtenemos los paremos que se nos han pasado al hacer el paso de un activity a otro
+        //Getting the parameters from an activity to another one
         Bundle bundle = this.getIntent().getExtras();
         email = bundle.getString("email");
 
-        //lo insertamos en sus respectivas variables para tratar con ellos
         title = bundle.getString("title");
         content = bundle.getString("content");
 
@@ -164,13 +162,10 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
             imageView.setImageURI(Uri.parse(oldImage));
         }
 
-        //Hacemos referencia a los textview de vernota.xml
         TITLE=(TextView)findViewById(R.id.textView_titulo);
         CONTENT=(TextView)findViewById(R.id.textView_content);
-        //Le cambiamos el texto al titulo y el contenido para que posea el de la nota correspondiente que estemos viendo
         TITLE.setText(title);
         CONTENT.setText(content);
-
 
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -200,8 +195,6 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         }
 
         ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
-
-
         mList.setListAdapter(mAdapter);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +211,6 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         txtSpeechInput = (TextView) findViewById(R.id.textView_content);
         btnSpeak = (ImageButton) findViewById(R.id.audio_image);
         btn = (Button) findViewById(R.id.btn);
-
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -268,7 +260,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                 break;
             }
 
-            case LOCATION_CATIVATE:{
+            case LOCATION_CATIVATE:
                 LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -286,7 +278,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                 mAdapter = new MapAdapter(getContext(), LIST_LOCATIONS);
 
                 break;
-            }
+
         }
 
     }
@@ -328,9 +320,9 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id=item.getItemId();
-        //Mediante el getitemid se obtiene el valor del boton pulsado
+        //throught getitemid, we get the value of pressed button
         switch (id){
-            //Si el botn pulsado es salir, la app termina
+            //If pressed button is exit, Finish.
             case R.id.action_save:
                 actividad("edit");
                 return true;
@@ -340,16 +332,12 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                 return true;
 
             case R.id.action_attach:
-
                 int cx = (mRevealView.getLeft() + mRevealView.getRight());
-//                int cy = (mRevealView.getTop() + mRevealView.getBottom())/2;
                 int cy = mRevealView.getTop();
 
                 int radius = Math.max(mRevealView.getWidth(), mRevealView.getHeight());
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-
-
                     SupportAnimator animator =
                             ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
                     animator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -365,28 +353,22 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                         animator_reverse.addListener(new SupportAnimator.AnimatorListener() {
                             @Override
                             public void onAnimationStart() {
-
                             }
 
                             @Override
                             public void onAnimationEnd() {
                                 mRevealView.setVisibility(View.INVISIBLE);
                                 hidden = true;
-
                             }
 
                             @Override
-                            public void onAnimationCancel() {
-
-                            }
+                            public void onAnimationCancel() {}
 
                             @Override
-                            public void onAnimationRepeat() {
-
-                            }
+                            public void onAnimationRepeat() {}
                         });
-                        animator_reverse.start();
 
+                        animator_reverse.start();
                     }
                 } else {
                     if (hidden) {
@@ -425,7 +407,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         String msj;
 
         Note note = new Note();
-        //Convertimos el titulo y el contenido a cadena de texto
+        //Connvert title and content to String
         note.setTittle(TITLE.getText().toString());
         note.setContent(CONTENT.getText().toString());
         String latitudeNote = String.valueOf(latitude);
@@ -459,7 +441,6 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
 
                 try {
                     JSONObject userParam = new JSONObject();
-                    System.out.println("EMAIL: " + email);
                     userParam.put("idUser",0);
                     userParam.put("email",email);
 
@@ -470,6 +451,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                     jsonParam.put("dateNote", dateFormat.format(dateNote));
                     jsonParam.put("idUser", userParam);
+
                     if(locationSaved){
                         jsonParam.put("latitude", note.getLatitude());
                         jsonParam.put("longitude", note.getLongitude());
@@ -498,8 +480,8 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
 
     private void alert(){
         AlertDialog alerta;
-        //Cremaos nuestra ventana de alerta con dos botones
         alerta= new AlertDialog.Builder(this).create();
+
         alerta.setTitle("Mensaje de confirmación");
         alerta.setMessage("¿Desea eliminar la nota?");
         alerta.setButton2("Cancelar", new DialogInterface.OnClickListener() {
@@ -537,7 +519,6 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
 
     @Override
     public void onInit(int status) {
-
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(Locale.getDefault());
             if (result == TextToSpeech.LANG_MISSING_DATA
@@ -579,7 +560,6 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
      * {@link #getView(int, android.view.View, android.view.ViewGroup)}
      */
     private class MapAdapter extends ArrayAdapter<NamedLocation> {
-
         private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
         public MapAdapter(Context context, NamedLocation[] locations) {
@@ -668,11 +648,8 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
      * display.
      */
     class ViewHolder implements OnMapReadyCallback {
-
         MapView mapView;
-
         TextView title;
-
         GoogleMap map;
 
         @Override
@@ -709,13 +686,12 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
 
         @Override
         public void onMovedToScrapHeap(View view) {
-            ViewHolder holder = (ViewHolder) view.getTag();
-            if (holder != null && holder.map != null) {
-                // Clear the map and free up resources by changing the map type to none
-                holder.map.clear();
-                holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
-            }
-
+        ViewHolder holder = (ViewHolder) view.getTag();
+        if (holder != null && holder.map != null) {
+            // Clear the map and free up resources by changing the map type to none
+            holder.map.clear();
+            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
+        }
         }
     };
 
@@ -724,9 +700,7 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
      * name ({@link java.lang.String}).
      */
     private static class NamedLocation {
-
         public final String name;
-
         public final LatLng location;
 
         NamedLocation(String name, LatLng location) {
@@ -754,8 +728,8 @@ public class ViewNote extends AppCompatActivity implements TextToSpeech.OnInitLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return cityName;
 
+        return cityName;
     }
 
     @Override
