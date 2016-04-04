@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Pretty Notes</string>
+
+    <string name="facebook_app_id">1524795514492195</string>
+
+    <string name="add_nota">Nueva Nota</string>
+    <string name="ver_nota">Ver Nota</string>
+
+    <string name="menu_crear">Crear nota</string>
+    <string name="menu_editar">Editar nota</string>
+    <string name="menu_eliminar">Eliminar nota</string>
+    <string name="menu_borrar_todas">Borrar todas</string>
+    <string name="menu_salir">Salir</string>
+    <string name="enter_title">Título</string>
+    <string name="enter_content">Contenido</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_attach">Adjuntar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="title_activity_login">Login</string>
+    <string name="contentDescriptionImagenSet">Aquí es donde la imagen se va a asignar</string>
+    <string name="speech_prompt">Dictar Nota</string>
+    <string name="speech_not_supported">El dispositivo no soporta el dictado de nota</string>
+</resources>

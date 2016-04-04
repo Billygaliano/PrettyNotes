@@ -3,21 +3,21 @@
 
     <string name="facebook_app_id">1524795514492195</string>
 
-    <string name="add_nota">Nueva Nota</string>
-    <string name="ver_nota">Ver Nota</string>
+    <string name="add_nota">New Note</string>
+    <string name="ver_nota">View Note</string>
 
-    <string name="menu_crear">Crear nota</string>
-    <string name="menu_editar">Editar nota</string>
-    <string name="menu_eliminar">Eliminar nota</string>
-    <string name="menu_borrar_todas">Borrar todas</string>
-    <string name="menu_salir">Salir</string>
-    <string name="enter_title">Título</string>
-    <string name="enter_content">Contenido</string>
-    <string name="action_save">Guardar</string>
-    <string name="action_attach">Adjuntar</string>
-    <string name="action_delete">Eliminar</string>
+    <string name="menu_crear">Create Note</string>
+    <string name="menu_editar">Edit Note</string>
+    <string name="menu_eliminar">Delete Note</string>
+    <string name="menu_borrar_todas">Clear all</string>
+    <string name="menu_salir">Sign out</string>
+    <string name="enter_title">Title</string>
+    <string name="enter_content">Content</string>
+    <string name="action_save">Save</string>
+    <string name="action_attach">Attach</string>
+    <string name="action_delete">Delete</string>
     <string name="title_activity_login">Login</string>
     <string name="contentDescriptionImagenSet">This is where the picture is going to assign</string>
-    <string name="speech_prompt">Dictar Nota</string>
-    <string name="speech_not_supported">El dispositivo no soporta el dictado de nota</string>
+    <string name="speech_prompt">Dictate Note</string>
+    <string name="speech_not_supported">The device does not support dictation of note</string>
 </resources>
